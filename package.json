@@ -1,0 +1,23 @@
+{
+  "name": "api-pw-postgres",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@apidevtools/json-schema-ref-parser": "^14.0.2",
+    "@faker-js/faker": "^7.6.0",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "dotenv": "^16.0.3",
+    "openapi-types": "^12.1.3",
+    "pg": "^8.16.3"
+  }
+}
