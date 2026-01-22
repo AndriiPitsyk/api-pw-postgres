@@ -7,9 +7,9 @@ test.beforeAll(async () => {
     await db.connect();
 });
 
-test('Should successfully create new user', async ({userController}) => {
+test('Should successfully create new user', async ({api}) => {
     const testUser = userData.generate();
-    user = await userController.create(testUser);
+    user = await api.users.create(testUser);
     expect(user).toMatchObject({
         ...testUser,
         id: expect.any(Number),
@@ -22,9 +22,9 @@ test('Should successfully create new user', async ({userController}) => {
     expect(result).toMatchObject({...testUser, id: expect.any(Number)})
 })
 
-test('Should successfully create 2nd user', async ({userController}) => {
+test('Should successfully create 2nd user', async ({api}) => {
     const testUser = userData.generate();
-    user = await userController.create(testUser);
+    user = await api.users.create(testUser);
     expect(user).toMatchObject({
         ...testUser,
         id: expect.any(Number),
@@ -38,8 +38,8 @@ test('Should successfully create 2nd user', async ({userController}) => {
 })
 
 
-test.afterEach(async ({userController}) => {
-    const response = await userController.delete(user.email);
+test.afterEach(async ({api}) => {
+    const response = await api.users.delete(user.email);
     expect(response.status()).toBe(200);
 })
 

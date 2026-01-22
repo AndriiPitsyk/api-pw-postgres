@@ -2,9 +2,9 @@ import {UserController} from "./userController";
 import {APIRequestContext} from "@playwright/test";
 
 export class Application {
-    user: UserController;
+    users: UserController;
 
     constructor(private request: APIRequestContext) {
-        this.user = new UserController(this.request);
+        this.users = new UserController(this.request);
     }
 }
