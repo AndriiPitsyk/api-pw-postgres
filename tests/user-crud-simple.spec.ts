@@ -1,5 +1,5 @@
 import {test, expect} from "../fixture";
-import {userData} from "../data/UserGenerator";
+import {userData} from "../api/data/userDataGenerator";
 let user;
 
 test('Should successfully create a new user', async ({app}) => {
