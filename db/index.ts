@@ -1,23 +1,24 @@
-import { ClientConfig } from 'pg';
-import { ClientConnection } from './connections/client';
-import { UserModel } from './models/UserModel';
+import {Client, ClientConfig} from 'pg';
+import {UserModel} from './models/UserModel';
 import {authConfig} from "./config";
 
 export class Database {
-    private connection: ClientConnection;
     public users: UserModel;
+    private client: Client;
 
     constructor(config: ClientConfig) {
-        this.connection = new ClientConnection(config);
-        this.users = new UserModel(this.connection);
-    }
+        this.client = new Client(config);
+        this.client.connect();
 
-    async connect() {
-        await this.connection.connect();
+        this.users = new UserModel(this.client);
     }
 
     async close() {
-        await this.connection.close();
+        try {
+            await this.client.end();
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
 
