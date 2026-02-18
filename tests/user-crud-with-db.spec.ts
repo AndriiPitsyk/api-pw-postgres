@@ -3,11 +3,7 @@ import {userData} from "../api/data/userDataGenerator";
 import {db} from '../db';
 let user;
 
-test.beforeAll(async () => {
-    await db.connect();
-});
-
-test('Should successfully create new user', async ({api}) => {
+test('Should successfully create new user', async ({api, db}) => {
     const testUser = userData.generate();
     user = await api.users.create(testUser);
     expect(user).toMatchObject({
@@ -42,7 +38,3 @@ test.afterEach(async ({api}) => {
     const response = await api.users.delete(user.email);
     expect(response.status()).toBe(200);
 })
-
-test.afterAll(async () => {
-    await db.close();
-});
