@@ -8,14 +8,21 @@ interface UserRequestBody {
 }
 
 class UserDataGenerator {
+    userData: UserRequestBody = {
+        userName: faker.internet.userName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        role: "user"
+    }
 
-    generate(userData?: Partial<UserRequestBody>): UserRequestBody {
-        return {
-            userName: userData?.userName ?? faker.internet.userName(),
-            email: userData?.email ?? faker.internet.email(),
-            password: userData?.password ?? faker.internet.password(),
-            role: userData?.role ?? "user"
-        };
+    setUserData(userData:{userName?: string, email?: string, password?: string, role?: string}): this {
+        this.userData = {...this.userData, ...userData};
+        return this;
+
+    }
+
+    generate(): UserRequestBody {
+        return this.userData;
     }
 }
 
