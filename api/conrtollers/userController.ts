@@ -1,19 +1,20 @@
 import { APIRequestContext, expect } from '@playwright/test';
+import {UserResponse} from "./types";
 
 export class UserController {
-  defaultHeaders = {
+  private defaultHeaders = {
     'accept': 'application/json',
     'content-type': 'application/json',
   };
   constructor(private request: APIRequestContext) {}
 
-  async getUserByEmail(userEmail: string) {
+  async getUserByEmail(userEmail: string): Promise <UserResponse> {
     const response = await this.request.get(`/api/users?query=${encodeURIComponent(userEmail)}`, { headers: this.defaultHeaders });
     expect(response.ok()).toBeTruthy();
     return response.json();
   }
 
-  async create(user: { userName: string; email: string; password: string; role: string }) {
+  async create(user: { userName: string; email: string; password: string; role: string }): Promise <UserResponse> {
     const response = await this.request.post('/api/users/signup',
       {
         data: user,
