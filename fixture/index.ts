@@ -3,12 +3,15 @@ import {Application} from "../api/conrtollers";
 import {Database} from "../db";
 import {authConfig} from "../db/config";
 import {userData} from "../api/data/userDataGenerator";
+import {LoginResponse, UserResponse} from "../api/conrtollers/types";
 
 // Define the fixture type
 type UserControllerFixtures = {
     api: Application,
     db: Database;
-    createdUser: any;
+    userPayload: any;
+    createdUser: UserResponse;
+    loggedInAsNewUser: LoginResponse;
 };
 
 // Extend the test with custom fixtures
@@ -21,14 +24,17 @@ export const test = base.extend<UserControllerFixtures>({
         const db = new Database(authConfig);
         await use(db);
         await db.close();
-        await db.close();
     },
-    createdUser: async ({api}: UserControllerFixtures, use) => {
-        const requestBody = userData.generate();
-        const response = await api.users.create(requestBody);
+    userPayload: [userData.generate(), { option: true }],
+    createdUser: async ({api, userPayload}, use) => {
+        const response = await api.users.create(userPayload);
         await use(response);
         await api.users.delete(response.email);
     },
+    loggedInAsNewUser: async({api, createdUser}, use)=> {
+        const response = await api.auth.login({email:createdUser.email, password: createdUser.password});
+        await use(response);
+    }
 });
 
 export { expect } from '@playwright/test';
